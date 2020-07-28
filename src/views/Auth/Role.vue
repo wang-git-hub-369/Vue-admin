@@ -18,7 +18,7 @@
 						<template slot-scope='scope'>
 							<el-button type="primary" plain size="mini" :disabled="scope.row.name === '超级管理员'" icon="el-icon-edit" @click="openModalEdit(scope.row.id,scope.row.name)"></el-button>
 							<el-button plain size="mini" type="danger" :disabled="scope.row.name === '超级管理员'" icon="el-icon-delete" @click="openRemoveModal(scope.row.id,scope.$index)"></el-button>
-							<el-button plain size="mini" type="primary" icon="el-icon-setting" @click='openConfigModal(scope.row.id)'></el-button>
+							<el-button plain size="mini" type="primary" icon="el-icon-setting" @click='openConfigModal(scope.row.id,scope.$index)'></el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -156,9 +156,9 @@
 			},
 			//设置菜单
 			async openConfigModal(id) {
+				console.log(id);
 				//取到role_id
 				this.configEdit.role_id = id;
-				this.configChildrenEdit.role_id = id;
 				this.dialogConfigVisible = true;
 				//console.log(id);
 				let { status, data } = await Auth.config({ id });
@@ -166,6 +166,7 @@
 					this.config = data;
 				}
 			},
+			// 父级开关的绑定事件
 			async switchId(id, index) {
 				this.configEdit.menu_id = id;
 				console.log(this.configEdit);
@@ -192,6 +193,7 @@
 					}
 				}
 			},
+			//子级开关的绑定事件
 			async checkedSingle(menu_id, i, idx) {
 				if (this.config[idx].children[i].checked == false) {
 					this.configEdit.menu_id = menu_id
