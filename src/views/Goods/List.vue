@@ -39,45 +39,6 @@
 				</el-pagination>
 			</div>
 		</el-card>
-		<!-- <el-card class="box-card">
-			<div slot="header" class="clearfix">
-				<span>商品列表</span>
-			</div>
-			<el-table :data="tableData" style="width: 100%">
-				<el-table-column label="商品名称">
-					<template scope="scope">
-						<div class="scope-box">
-							<div>
-								<el-image :src="scope.row.img_md" style="width: 80px;"></el-image>
-							</div>
-							<div class="goods-name">
-								<span>{{scope.row.name}}</span>
-								<span>商品货号:{{scope.row.articleNo}}</span>
-							</div>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column prop="price" label="价格" sortable  >
-				</el-table-column>
-				<el-table-column prop="inventory" label="库存" sortable>
-				</el-table-column>
-				<el-table-column prop="create_time" label="发布数据" sortable>
-				</el-table-column>
-				<el-table-column label="操作">
-					<template slot-scope='scope'>
-						<el-link :href="`#/goods/edit/${scope.row.id}`">
-							<el-button type="primary" class="editButton" size="mini" plain><i class="el-icon-edit"></i>编辑</el-button>
-						</el-link>
-						<el-button plain size="mini" type="danger" icon="el-icon-delete" @click='remove(scope.row.id,scope.$index)'></el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<div class="block">
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[4, 8, 16, 32]"
-				 background layout="->,prev,pager,next,sizes,total" :total="11">
-				</el-pagination>
-			</div>
-		</el-card> -->
 </template>
 
 <script>

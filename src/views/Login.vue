@@ -72,22 +72,14 @@
 					}
 					//校验通过
 					//发送后台
-
-					// let { status, msg, data } = await User.login({ ...this.form });
-					// if (status) {
-					// 	this.$message.success(msg);
-					// 	this.$router.replace('/commodity/list');
-					// } else {
-					// 	this.$message.error(msg)
-					// }
-					// await命令后面是一个 Promise 对象。
+                    // await命令后面是一个 Promise 对象。
 					let { status, msg, data } = await User.login({ ...this.form }); //调用Admin对象下面的login方法并且传递参数
 					if (status) {
 						//console.log(data)
 						//登录成功后存储Token,uid,role
 						//sessionStorage只在页面打开时有效,暂时存储，而localStorage则是永久存储，cookie则安全性低，容易被攻击
 						sessionStorage.token = data.token;
-						sessionStorage.uid = data.id;
+						sessionStorage.id = data.id;
 						sessionStorage.role = data.role;
 						console.log(sessionStorage.uid);
 						// 成功

@@ -73,7 +73,7 @@
 			</div>
 		</el-dialog>
 		<!-- 图标弹窗 -->
-		<el-dialog title="选择图标" :visible.sync="iconModalShow" width='69%'>
+		<el-dialog title="选择图标" :visible.sync="iconModalShow" width='77%'>
 			<div class="iconList">
 				<div id='icon-box' @click="clickIcon(item.id,item)" v-for="item in iconArray" :key='item.id'>
 					<div :class="{clickBlue:  item.id==index}">
@@ -283,6 +283,7 @@
 					this.$message.success('修改图标成功');
 					//更新dom页面
 					//调用缓存的图标数据，让他的icon等于改变完之后的名字
+					console.log(this.nodeData);
 					this.nodeData.icon = this.editIcon.name;
 					this.iconModalShow = false;
 				}

@@ -44,6 +44,15 @@
 		components: {
 			Upload
 		},
+		async created() {
+			//加载个人资料
+			this.ruleForm={...this.$store.state.form};
+			//获取角色列表
+			let { status, data } = await Admin.list({});
+				if (status) {
+					this.AdminList = data;
+				}
+		},
 		data() {
 			return {
 				ruleForm: {},
@@ -110,41 +119,15 @@
 				}
 			};
 		},
-		created() {
-			this.loadinfo();
-			this.loadAdminlist();
-		},
 		methods: {
-			async loadinfo() {
-				//取到登录页面缓存的id，判断登录的是哪个管理员
-				let id = sessionStorage.uid
-				let { status, data } = await User.info({ id: id })
-				if (status) {
-					this.ruleForm = data;
-				}
-			},
-			//获取角色列表
-			async loadAdminlist() {
-				let { status, data } = await Admin.list({});
-				if (status) {
-					this.AdminList = data;
-				}
-				//console.log(this.AdminList)
-			},
 			submitForm(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (!valid) {
 						//校验失败
 						return false
 					}
-					let { status, data } = await User.edit({ ...this.ruleForm });
-					if (status) {
-						this.$message.success('修改成功!');
-					} else {
-						this.$message.info('修改失败!');
-					}
-					//校验通过,发送后台获取资料
-
+					this.$store.dispatch('updateProfile',{...this.ruleForm})
+					this.$message.success('修改成功!');
 				});
 			},
 			//头像上传成功

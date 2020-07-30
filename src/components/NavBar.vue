@@ -3,14 +3,13 @@
 		<div class="navbar"><img src="../assets/img/logo.png" alt=""></div>
 		<div class="header-icon">
 			<!-- <el-radio-button :label="true"><i class="el-icon-s-fold"></i>  收起</el-radio-button> -->
-			<i class="el-icon-s-fold" @click="emits"></i>
+			<i class="el-icon-s-fold" @click="clickEmit"></i>
 		</div>
 		<div class="header-title">
 			<el-dropdown trigger="click">
 				<span class="el-dropdown-link">
-					<el-avatar :size='35' :src="ruleForm.avatar"></el-avatar>
-					<span class="sdaas">{{ruleForm.username}}<i class="el-icon-arrow-down el-icon--right"></i></span>
-
+					<el-avatar :size='35' :src="user.avatar"></el-avatar>
+					<span class="sdaas">{{user.username}}<i class="el-icon-arrow-down el-icon--right"></i></span>
 				</span>
 				<el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
 					<el-dropdown-item>消息</el-dropdown-item>
@@ -30,28 +29,19 @@
 <script>
 	import { User } from '@/api/index'
 	export default {
-		data() {
-			return {
-				ruleForm: {},
-				isShow:false,
+		created() {
+			//页面初次加载就开始分发acticon
+			this.$store.dispatch('loadProfile');
+		},
+		//通过技术属性取到state里面的值
+		computed:{
+			user(){
+				return this.$store.state.form;
 			}
 		},
-		created() {
-			this.loadinfo();
-		},
 		methods: {
-			async loadinfo() {
-				//取到登录页面缓存的id，判断登录的是哪个管理员
-				let id = sessionStorage.uid
-				let { status, data } = await User.info({ id: id })
-				if (status) {
-					this.ruleForm = data;
-				}
-			},
-			emits(){
-				this.isShow=!this.isShow;
-				//发送给父级一个指令
-				this.$emit('change',this.isShow);
+			clickEmit(){
+				this.$store.commit('iconClick');
 			}
 		}
 
@@ -65,13 +55,9 @@
 		height: 100%;
 		line-height: 55px;
 		display: flex;
-	}
-
-	.header {
 		margin-left: -20px;
 		margin-right: -20px;
 	}
-
 	.navbar img {
 		height: 55px;
 	}

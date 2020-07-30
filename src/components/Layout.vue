@@ -1,16 +1,15 @@
 <template>
 	<el-container>
-		<!-- 头部 -->
-		<el-header>
-			<NavBar @change='handleMenu($event)'></NavBar>
+		<el-header style='padding: 0;'>
+			<NavBar></NavBar>
 		</el-header>
 		<el-container>
-			<!--菜单 -->
-			<el-aside width="auto">
-				<LeftMenu :isCollapse='show'></LeftMenu>
+			<el-aside style='width: auto;'>
+				<!-- 左侧侧边栏菜单 -->
+				<LeftMenu></LeftMenu>
 			</el-aside>
-			<!-- 内容 -->
 			<el-main>
+				<!-- 主体内容 -->
 				<router-view></router-view>
 			</el-main>
 		</el-container>
@@ -18,27 +17,17 @@
 </template>
 
 <script>
-	//注册局部组件
-	import NavBar from '@/components/NavBar.vue';
-	import LeftMenu from '@/components/LeftMenu.vue';
+	import NavBar from '@/components/NavBar';
+	import LeftMenu from '@/components/LeftMenu';
 	export default {
 		components: {
 			NavBar,
 			LeftMenu
 		},
-		data(){
-			return{
-				show:false,
-			}
-		},
-		methods:{
-			handleMenu(res){
-				this.show=res;
-			}
+		methods: {
 		}
 	}
 </script>
 
 <style>
-	
 </style>
