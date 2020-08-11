@@ -46,7 +46,7 @@
 		},
 		async created() {
 			//加载个人资料
-			this.ruleForm={...this.$store.state.form};
+			this.ruleForm={...this.$store.state.UserInfo.form};
 			//获取角色列表
 			let { status, data } = await Admin.list({});
 				if (status) {
@@ -126,8 +126,13 @@
 						//校验失败
 						return false
 					}
-					this.$store.dispatch('updateProfile',{...this.ruleForm})
-					this.$message.success('修改成功!');
+					let { status, msg } = await this.$store.dispatch('UserInfo/updateProfile',{...this.ruleForm});
+					if(status){
+						this.$message.success(msg);
+					}else{
+						this.$message.error(msg);
+					}
+					
 				});
 			},
 			//头像上传成功

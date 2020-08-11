@@ -29,7 +29,7 @@
 
 				<el-table-column prop="login_time" label="上次登录" sortable width="180"></el-table-column>
 
-				<el-table-column prop="login_count" label="登陆次数" sortable width="80"></el-table-column>
+				<el-table-column prop="login_count" label="登陆次数" sortable width="180"></el-table-column>
 
 				<el-table-column label="操作" width="180">
 					<template slot-scope="scope">

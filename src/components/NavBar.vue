@@ -27,21 +27,25 @@
 </template>
 
 <script>
-	import { User } from '@/api/index'
+	import { mapState } from 'vuex'
 	export default {
 		created() {
 			//页面初次加载就开始分发acticon
-			this.$store.dispatch('loadProfile');
+			this.$store.dispatch('UserInfo/loadProfile');
 		},
-		//通过技术属性取到state里面的值
+		//通过计算属性取到state里面的值
 		computed:{
-			user(){
-				return this.$store.state.form;
-			}
+			// ...mapState{''}
+			// mapState辅助函数
+			...mapState('UserInfo',{user:(state)=>state.form}),
+			// user(){
+			// 	return this.$store.state.UserInfo.form;
+			// },
 		},
 		methods: {
 			clickEmit(){
-				this.$store.commit('iconClick');
+				//传递一个指令
+				this.$store.commit('Menu/iconClick');
 			}
 		}
 

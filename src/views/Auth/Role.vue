@@ -123,18 +123,32 @@
 			},
 			//添加角色
 			async addsubmitForm() {
-				let { status, data } = await Auth.add({ ...this.roleform });
-				if (status) {
-					this.$message.success('添加成功!');
-					//调用获取列表
-					this.loadList();
-					this.dialogTableVisible = false;
+				var k = 0;
+				for (var i = 0; i < this.tableData.length; i++) {
+					if (this.roleform.name == this.tableData[i].name) {
+						k++;
+					}
+				}
+				if (k == 0) {
+					let { status, data } = await Auth.add({ ...this.roleform });
+					if (status) {
+						this.$message.success('添加成功!');
+						//调用获取列表
+						this.loadList();
+						this.dialogTableVisible = false;
+						//清空添加
+						this.roleform = {
+							name: ''
+						};
+					} else {
+						this.$message.info('添加失败!');
+					}
+				} else {
+					this.$message.error('添加角色不能重复');
 					//清空添加
 					this.roleform = {
 						name: ''
 					};
-				} else {
-					this.$message.info('添加失败!');
 				}
 			},
 			//删除模态框
