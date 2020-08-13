@@ -71,8 +71,8 @@
 					800*800像素以上，大小不超过1M的正方形图片，上传后的图片将自动保存在图片空间的默认分类中</span>
 			</el-form-item>
 			<el-form-item label="商品轮播图">
-				<el-upload action="/api/upload/slider"  :headers="headers" :file-list="sliderList" list-type="picture-card" :on-preview="handlePictureCardPreview"
-				 :on-success="sliderSuccess" :on-remove="handleRemove">
+				<el-upload action="/api/upload/slider" :headers="headers" :file-list="sliderList" list-type="picture-card"
+				 :on-preview="handlePictureCardPreview" :on-success="sliderSuccess" :on-remove="handleRemove">
 					<i class="el-icon-plus"></i>
 				</el-upload>
 				<el-dialog :visible.sync="dialogVisible">
@@ -136,10 +136,11 @@
 		data() {
 			return {
 				//添加头部header属性，验证token
-				headers:{
+				headers: {
 					Authorization: `Bearer ${sessionStorage.token}`
 				},
 				form: {
+					id: '',
 					cate_1st: '',
 					cate_2nd: '',
 					cate_3rd: '',
@@ -244,14 +245,14 @@
 			var editor = new E(this.$refs.editor)
 			editor.customConfig.onchange = (html) => {
 				this.form.detail = html
-				
+
 			}
-			editor.customConfig.uploadImgServer = '/api/upload/editor'   //配置图片上传
-			
-			editor.customConfig.uploadFileName = 'file'   //自定义上传filename
-			
-			editor.customConfig.uploadImgHeaders = {     //自定义头部信息
-			    'Authorization': `Bearer ${sessionStorage.token}`
+			editor.customConfig.uploadImgServer = '/api/upload/editor' //配置图片上传
+
+			editor.customConfig.uploadFileName = 'file' //自定义上传filename
+
+			editor.customConfig.uploadImgHeaders = { //自定义头部信息
+				'Authorization': `Bearer ${sessionStorage.token}`
 			}
 			editor.create();
 			editor.txt.html(this.form.detail);
@@ -292,8 +293,15 @@
 				//console.log(res)
 				this.form.img_md = res.lgImg;
 			},
+			//轮播图上传
+			sliderSuccess(res, file) {
+				let { status, src, msg } = res;
+				this.form.slider += (src + ',');
+				console.log(this.form.slider);
+			},
 			//保存
 			async onSubmit() {
+				this.form.slider = this.form.slider.toString();
 				let { status } = await Goods.edit({ ...this.form });
 				if (status) {
 					this.$message.success('修改成功');
@@ -301,12 +309,6 @@
 				} else {
 					this.$message.error('修改失败');
 				}
-			},
-			//轮播图上传
-			sliderSuccess(res, file) {
-				let { status, src, msg } = res;
-				this.form.slider += (src + ',');
-				console.log(this.form.slider);
 			},
 			//放大图片
 			handlePictureCardPreview(file) {
