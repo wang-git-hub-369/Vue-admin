@@ -59,8 +59,8 @@
 		height: 100%;
 		line-height: 55px;
 		display: flex;
-		margin-left: -20px;
-		margin-right: -20px;
+		margin-left: 0px;
+		margin-right:0px;
 	}
 	.navbar img {
 		height: 55px;
@@ -70,7 +70,7 @@
 		position: absolute;
 		right: -60px;
 		width: 120px;
-		margin-right: 50px;
+		margin-right: 60px;
 	}
 
 	.el-dropdown-link span {
