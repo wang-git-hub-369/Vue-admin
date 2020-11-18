@@ -63,6 +63,25 @@
 				}
 			}
 		},
+		// 回车键登录
+		created() {
+			let that = this;
+			document.onkeydown = function(e) {
+
+				// this.handleLogin();
+				e = window.event || e;
+				if ((e.code == 'Enter' || e.code == 'enter')) { //验证按得键是回车键enter
+					if (that.form.password == 0 && that.form.username == 0) {
+						that.$message({
+							message: '请填写账号或密码',
+							type: 'warning'
+						});
+					} else {
+						that.enterLogin();
+					}
+				}
+			}
+		},
 		methods: {
 			handleLogin(formName) { //async函数的写法
 				this.$refs[formName].validate(async (valid) => { //等同于async function(valid){}
@@ -72,7 +91,7 @@
 					}
 					//校验通过
 					//发送后台
-                    // await命令后面是一个 Promise 对象。
+					// await命令后面是一个 Promise 对象。
 					let { status, msg, data } = await User.login({ ...this.form }); //调用Admin对象下面的login方法并且传递参数
 					if (status) {
 						//console.log(data)
@@ -94,12 +113,37 @@
 							//跳转到默认地址    this.$router解决了每次需要引进router.js的问题
 							this.$router.replace('/goods/list');
 						}
-					}else{
+					} else {
 						this.$message.error(msg);
 					}
 				});
+			},
+			// 回车登录函数
+			async enterLogin() {
+				let { status, msg, data } = await User.login({ ...this.form }); //调用Admin对象下面的login方法并且传递参数
+				if (status) {
+					sessionStorage.token = data.token;
+					sessionStorage.id = data.id;
+					sessionStorage.role = data.role;
+					console.log(sessionStorage.uid);
+					// 成功
+					this.$message.success(msg);
+					//是否有redirect参数？04--重定向参数
+					//把query里面的redirect结构出来
+					let { redirect } = this.$route.query;
+					// 打印query,查看属性
+					// console.log(this.$route.query); 
+					if (redirect) {
+						this.$router.replace(redirect);
+					} else {
+						//跳转到默认地址    this.$router解决了每次需要引进router.js的问题
+						this.$router.replace('/goods/list');
+					}
+				} else {
+					this.$message.error(msg);
+				}
 			}
-		}
+		},
 	}
 </script>
 
